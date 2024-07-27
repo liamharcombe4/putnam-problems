@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Putnam Problems</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                packages: {'[+]': ['base', 'ams']}
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="script.js" defer></script>
+    <link id="themeStylesheet" rel="stylesheet" href="light-theme.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        header {
+            background-color: var(--header-background-color);
+            color: var(--header-text-color);
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 40px; /* Added padding to indent from sides */
+            box-sizing: border-box; /* Ensure padding is included in element's total width and height */
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        #selectors {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        select, #randomProblemButton, #darkModeToggle {
+            padding: 10px;
+            font-size: 1rem;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #randomProblemButton, #darkModeToggle {
+            background-color: var(--button-background-color);
+            color: var(--button-text-color);
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #randomProblemButton:hover, #darkModeToggle:hover {
+            background-color: var(--button-hover-background-color);
+        }
+        #problem {
+            margin-top: 20px;
+            text-align: left;
+            background: var(--content-background-color);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+        p {
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        .stars-outer {
+            display: inline-block;
+            position: relative;
+            font-size: 2rem;  /* Increase size */
+            line-height: 1;
+            margin-left: 10px;
+        }
+        .stars-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            color: #f8ce0b;
+        }
+        .stars-outer::before,
+        .stars-inner::before {
+            content: "★★★★★";  /* Five stars */
+        }
+        .stars-outer::before {
+            color: #ccc;
+        }
+        .stars-inner::before {
+            color: #f8ce0b;
+        }
+        .stars-container {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Putnam Problems</h1>
+        <button id="darkModeToggle">Toggle Dark Mode</button>
+    </header>
+    <main>
+        <div id="selectors">
+            <select id="yearSelector">
+                <option value="">Select Year</option>
+            </select>
+            <select id="problemSelector">
+                <option value="">Select Problem</option>
+            </select>
+            <span>or</span>
+            <button id="randomProblemButton">Get Random Problem</button>
+        </div>
+        <div id="problem"></div>
+    </main>
+</body>
+</html>
