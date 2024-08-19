@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const problemDiv = document.getElementById("problem");
     const darkModeToggle = document.getElementById("darkModeToggle");
 
+    const lockYearCheckbox = document.getElementById("lockYear");
+    const lockProblemCheckbox = document.getElementById("lockProblem");
+
     let problems = {};
 
     // Fetch the JSON file
@@ -33,6 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function populateProblemSelector() {
+        const selectedProblemKey = problemSelector.value;  // Save the currently selected problem
         problemSelector.innerHTML = '<option value="">Select Problem</option>';
         const selectedYear = yearSelector.value;
         if (selectedYear) {
@@ -44,6 +48,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 option.textContent = problemLabel;
                 problemSelector.appendChild(option);
             });
+            // Restore the previously selected problem if it exists in the new year's problem set
+            if (problemsInYear.includes(selectedProblemKey)) {
+                problemSelector.value = selectedProblemKey;
+            }
         }
     }
 
@@ -53,18 +61,26 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const years = Object.keys(problems);
-        const randomYear = years[Math.floor(Math.random() * years.length)];
-        const problemsInYear = problems[randomYear];
-        const problemKeys = Object.keys(problemsInYear);
-        const randomProblemKey = problemKeys[Math.floor(Math.random() * problemKeys.length)];
+        let selectedYear = yearSelector.value;
+        let selectedProblemKey = problemSelector.value;
 
-        // Set the dropdowns to the random year and problem
-        yearSelector.value = randomYear;
+        if (!lockYearCheckbox.checked) {
+            const years = Object.keys(problems);
+            selectedYear = years[Math.floor(Math.random() * years.length)];
+        }
+
+        if (!lockProblemCheckbox.checked) {
+            const problemsInYear = problems[selectedYear];
+            const problemKeys = Object.keys(problemsInYear);
+            selectedProblemKey = problemKeys[Math.floor(Math.random() * problemKeys.length)];
+        }
+
+        // Set the dropdowns to the random year and problem (or locked ones)
+        yearSelector.value = selectedYear;
         populateProblemSelector();
-        problemSelector.value = randomProblemKey;
+        problemSelector.value = selectedProblemKey;
 
-        displayProblem(randomYear, randomProblemKey);
+        displayProblem(selectedYear, selectedProblemKey);
     }
 
     function displaySelectedProblem() {

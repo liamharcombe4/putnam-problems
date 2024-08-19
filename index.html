@@ -61,9 +61,21 @@
         #selectors {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 20px; /* Increased gap for better spacing */
             margin-bottom: 20px;
         }
+
+        #selectors > div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #selectors > div > div {
+            margin-top: 5px; /* Space between selector and lock checkbox */
+            font-size: 0.9rem; /* Slightly smaller text for the lock label */
+        }
+
         select, #randomProblemButton, #darkModeToggle {
             padding: 10px;
             font-size: 1rem;
@@ -140,13 +152,22 @@
     </header>
     <main>
         <div id="selectors">
-            <select id="yearSelector">
-                <option value="">Select Year</option>
-            </select>
-            <select id="problemSelector">
-                <option value="">Select Problem</option>
-            </select>
-            <span>or</span>
+            <div>
+                <select id="yearSelector">
+                    <option value="">Select Year</option>
+                </select>
+                <div>
+                    <input type="checkbox" id="lockYear"> <label for="lockYear">Lock</label>
+                </div>
+            </div>
+            <div>
+                <select id="problemSelector">
+                    <option value="">Select Problem</option>
+                </select>
+                <div>
+                    <input type="checkbox" id="lockProblem"> <label for="lockProblem">Lock</label>
+                </div>
+            </div>
             <button id="randomProblemButton">Get Random Problem</button>
         </div>
         <div id="problem"></div>
