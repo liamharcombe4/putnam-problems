@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function populateProblemSelector() {
-        const selectedProblemKey = problemSelector.value;  // Save the currently selected problem
+        const selectedProblemKey = problemSelector.value; // Store the currently selected problem key
         problemSelector.innerHTML = '<option value="">Select Problem</option>';
         const selectedYear = yearSelector.value;
         if (selectedYear) {
@@ -48,11 +48,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 option.textContent = problemLabel;
                 problemSelector.appendChild(option);
             });
-            // Restore the previously selected problem if it exists in the new year's problem set
+
+            // Set the problem selector back to the previously selected problem key
             if (problemsInYear.includes(selectedProblemKey)) {
                 problemSelector.value = selectedProblemKey;
+            } else {
+                problemSelector.value = ''; // If the selected problem is not in the new year, reset it
             }
         }
+
+        // After repopulating the problem selector, display the problem for the current selection
+        displaySelectedProblem();
     }
 
     function displayRandomProblem() {
@@ -77,7 +83,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Set the dropdowns to the random year and problem (or locked ones)
         yearSelector.value = selectedYear;
-        populateProblemSelector();
+        populateProblemSelector(); // This will call displaySelectedProblem to update the view
+
+        // Manually set the problem selector to the locked or randomly chosen problem
         problemSelector.value = selectedProblemKey;
 
         displayProblem(selectedYear, selectedProblemKey);
