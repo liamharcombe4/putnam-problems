@@ -143,6 +143,24 @@
             top: 10px;
             right: 10px;
         }
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .slider-container label {
+            font-size: 1rem;
+        }
+
+        .slider-container input[type="range"] {
+            width: 150px;  /* Adjust the width as necessary */
+        }
+
+        #difficultyLabel {
+            margin-left: 10px;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -152,24 +170,31 @@
     </header>
     <main>
         <div id="selectors">
-            <div>
+            <div class="selector-container">
                 <select id="yearSelector">
                     <option value="">Select Year</option>
                 </select>
-                <div>
+                <div class="lock-container">
                     <input type="checkbox" id="lockYear"> <label for="lockYear">Lock</label>
                 </div>
             </div>
-            <div>
+            <div class="selector-container">
                 <select id="problemSelector">
                     <option value="">Select Problem</option>
                 </select>
-                <div>
+                <div class="lock-container">
                     <input type="checkbox" id="lockProblem"> <label for="lockProblem">Lock</label>
                 </div>
             </div>
+            <div class="slider-container">
+                <label for="difficultyRange">Difficulty Range: </label>
+                <input type="range" id="minDifficulty" min="0.5" max="5" step="0.5" value="0.5">
+                <input type="range" id="maxDifficulty" min="0.5" max="5" step="0.5" value="5">
+                <span id="difficultyLabel">0.5 - 5.0</span>
+            </div>
             <button id="randomProblemButton">Get Random Problem</button>
         </div>
+        
         <div id="problem"></div>
     </main>
 </body>
