@@ -100,8 +100,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function displayProblem(year, problemKey) {
-        const problemData = problems[year][problemKey];
-        const problemText = problemData.problem_text.replace(/\\item\[.*?\]\s*/, '');
+        let problemData = problems[year][problemKey];
+        let problemText = problemData.problem_text
+            .replace(/\\\\/g, '\\') // Replace double slashes with single slash
+            .replace(/\\item\[[^\]]+\]\s*\n?/, ''); // Remove initial \item[...] text
+    
+        // Convert LaTeX enumerate/itemize to HTML
+        problemText = problemText
+            .replace(/\\begin{enumerate}/g, '<ol>')
+            .replace(/\\end{enumerate}/g, '</ol>')
+            .replace(/\\begin{itemize}/g, '<ul>')
+            .replace(/\\end{itemize}/g, '</ul>')
+            // Handle custom item labels in enumerate (e.g., \item[(i)])
+            .replace(/\\item\[(.*?)\]/g, '<li style="list-style-type:none;"><span>$1</span> ')
+            // Handle standard items
+            .replace(/\\item/g, '<li>');
+    
+        // Convert LaTeX text formatting commands to HTML
+        problemText = problemText
+            .replace(/\\textbf{([^}]*)}/g, '<b>$1</b>')  // \textbf{} to <b></b>
+            .replace(/\\textit{([^}]*)}/g, '<i>$1</i>')  // \textit{} to <i></i>
+            .replace(/\\emph{([^}]*)}/g, '<i>$1</i>');   // \emph{} to <i></i>
+    
         const difficultyRating = problemData.difficulty_rating;
         const heading = `${year} ${problemKey.replace("\\item[", "").replace("]", "").replace("--", "")}`;
         
@@ -115,14 +135,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
         }
-
+    
         problemDiv.innerHTML = `<h2>${heading}</h2>${stars}<div class="math-content">${problemText}</div>`;
-
+    
         // Ensure MathJax re-renders the new content
         if (window.MathJax) {
             MathJax.typesetPromise([problemDiv]).catch((err) => console.log(err.message));
         }
     }
+    
+    
+    
 
     function toggleDarkMode() {
         const themeStylesheet = document.getElementById("themeStylesheet");
