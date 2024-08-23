@@ -44,7 +44,8 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Ensure the min slider cannot go beyond the max slider
         if (minDifficulty > maxDifficulty) {
-            minDifficultySlider.value = maxDifficulty;
+            // minDifficultySlider.value = maxDifficulty;
+            maxDifficultySlider.value = minDifficulty;
         }
 
         updateDifficultyLabel();
@@ -56,7 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Ensure the max slider cannot go below the min slider
         if (maxDifficulty < minDifficulty) {
-            maxDifficultySlider.value = minDifficulty;
+            // maxDifficultySlider.value = minDifficulty;
+            minDifficultySlider.value = maxDifficulty;
         }
 
         updateDifficultyLabel();
