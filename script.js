@@ -5,8 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const problemDiv = document.getElementById("problem");
     const darkModeToggle = document.getElementById("darkModeToggle");
 
-    const lockYearCheckbox = document.getElementById("lockYear");
-    const lockProblemCheckbox = document.getElementById("lockProblem");
+    // const lockYearCheckbox = document.getElementById("lockYear");
+    // const lockProblemCheckbox = document.getElementById("lockProblem");
 
     const minDifficultySlider = document.getElementById("minDifficulty");
     const maxDifficultySlider = document.getElementById("maxDifficulty");
@@ -108,7 +108,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const maxDifficulty = parseFloat(maxDifficultySlider.value);
     
         // If the year is locked, filter within the selected year, otherwise filter across all years
-        let availableYears = lockYearCheckbox.checked ? [yearSelector.value] : Object.keys(problems);
+        // let availableYears = lockYearCheckbox.checked ? [yearSelector.value] : Object.keys(problems);
+
+        let availableYears = Object.keys(problems);
     
         const filteredProblems = {};
     
@@ -134,16 +136,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let selectedYear = yearSelector.value;
         let selectedProblemKey;
     
-        if (!lockYearCheckbox.checked) {
-            selectedYear = availableYears[Math.floor(Math.random() * availableYears.length)];
-        }
+        // if (!lockYearCheckbox.checked) {
+        //     selectedYear = availableYears[Math.floor(Math.random() * availableYears.length)];
+        // }
+        selectedYear = availableYears[Math.floor(Math.random() * availableYears.length)];
     
         const availableProblems = Object.keys(filteredProblems[selectedYear]);
-        if (!lockProblemCheckbox.checked) {
-            selectedProblemKey = availableProblems[Math.floor(Math.random() * availableProblems.length)];
-        } else {
-            selectedProblemKey = problemSelector.value;
-        }
+        // if (!lockProblemCheckbox.checked) {
+        //     selectedProblemKey = availableProblems[Math.floor(Math.random() * availableProblems.length)];
+        // } else {
+        //     selectedProblemKey = problemSelector.value;
+        // }
+        selectedProblemKey = availableProblems[Math.floor(Math.random() * availableProblems.length)];
     
         // Set the dropdowns to the random year and problem (or locked ones)
         yearSelector.value = selectedYear;
