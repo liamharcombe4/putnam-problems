@@ -169,6 +169,13 @@
             gap: 10px;
         }
 
+        .tags-container {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0px; /* This adds spacing between the tags */
+        }
+
         .tag-box {
             background-color: var(--button-background-color);
             color: var(--button-text-color);
@@ -178,12 +185,22 @@
             font-weight: bold;
             display: inline-block;
             box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
+            cursor: pointer;
+            margin: 5px; /* This adds space around each tag */
         }
 
         .tag-box:hover {
             background-color: var(--button-hover-background-color);
         }
+
+        .tag-box.selected {
+            background-color: var(--tag-selected-color);
+            color: var(--tag-selected-text-color);
+        }
+
+
+
 
 
     </style>
@@ -219,6 +236,8 @@
             </div>
             <button id="randomProblemButton">Get Random Problem</button>
         </div>
+
+        <div id="tagsSelection"></div>
         
         <div id="problem"></div>
     </main>

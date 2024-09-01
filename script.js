@@ -5,14 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const problemDiv = document.getElementById("problem");
     const darkModeToggle = document.getElementById("darkModeToggle");
 
-    // const lockYearCheckbox = document.getElementById("lockYear");
-    // const lockProblemCheckbox = document.getElementById("lockProblem");
-
     const minDifficultySlider = document.getElementById("minDifficulty");
     const maxDifficultySlider = document.getElementById("maxDifficulty");
     const difficultyLabel = document.getElementById("difficultyLabel");
+    const tagsSelectionDiv = document.getElementById("tagsSelection");
 
     let problems = {};
+    let selectedTags = new Set();
 
     // Fetch the JSON file
     fetch('putnam_problems.json')
@@ -20,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             problems = data;
             populateYearSelector();
+            populateTagsSelection();
             displayRandomProblem(); // Display a random problem after loading the JSON data
         })
         .catch(error => console.error('Error fetching the JSON file:', error));
@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Ensure the min slider cannot go beyond the max slider
         if (minDifficulty > maxDifficulty) {
-            // minDifficultySlider.value = maxDifficulty;
             maxDifficultySlider.value = minDifficulty;
         }
 
@@ -57,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
         
         // Ensure the max slider cannot go below the min slider
         if (maxDifficulty < minDifficulty) {
-            // maxDifficultySlider.value = minDifficulty;
             minDifficultySlider.value = maxDifficulty;
         }
 
@@ -100,6 +98,37 @@ document.addEventListener("DOMContentLoaded", () => {
         displaySelectedProblem();
     }
 
+    function populateTagsSelection() {
+        const allTags = new Set();
+        // Collect all tags from all problems
+        Object.values(problems).forEach(yearProblems => {
+            Object.values(yearProblems).forEach(problem => {
+                Object.keys(problem.tags_and_strengths).forEach(tag => {
+                    allTags.add(tag);
+                });
+            });
+        });
+
+        // Display all tags
+        allTags.forEach(tag => {
+            const tagElement = document.createElement("span");
+            tagElement.classList.add("tag-box");
+            tagElement.textContent = `# ${tag}`;
+            tagElement.addEventListener("click", () => toggleTagSelection(tagElement, tag));
+            tagsSelectionDiv.appendChild(tagElement);
+        });
+    }
+
+    function toggleTagSelection(tagElement, tag) {
+        if (selectedTags.has(tag)) {
+            selectedTags.delete(tag);
+            tagElement.classList.remove('selected');
+        } else {
+            selectedTags.add(tag);
+            tagElement.classList.add('selected');
+        }
+    }    
+
     function displayRandomProblem() {
         if (Object.keys(problems).length === 0) {
             problemDiv.innerHTML = "<p>Loading problems... Please try again.</p>";
@@ -108,10 +137,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
         const minDifficulty = parseFloat(minDifficultySlider.value);
         const maxDifficulty = parseFloat(maxDifficultySlider.value);
-    
-        // If the year is locked, filter within the selected year, otherwise filter across all years
-        // let availableYears = lockYearCheckbox.checked ? [yearSelector.value] : Object.keys(problems);
-
         let availableYears = Object.keys(problems);
     
         const filteredProblems = {};
@@ -120,9 +145,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const yearProblems = problems[year];
             filteredProblems[year] = {};
             for (const key in yearProblems) {
-                const difficulty = yearProblems[key].difficulty_rating;
-                if (difficulty >= minDifficulty && difficulty <= maxDifficulty) {
-                    filteredProblems[year][key] = yearProblems[key];
+                const problem = yearProblems[key];
+                const difficulty = problem.difficulty_rating;
+                const problemTags = Object.keys(problem.tags_and_strengths);
+                const hasSelectedTag = Array.from(selectedTags).some(tag => problemTags.includes(tag));
+                if (difficulty >= minDifficulty && difficulty <= maxDifficulty && (selectedTags.size === 0 || hasSelectedTag)) {
+                    filteredProblems[year][key] = problem;
                 }
             }
         });
@@ -131,36 +159,23 @@ document.addEventListener("DOMContentLoaded", () => {
         availableYears = availableYears.filter(year => Object.keys(filteredProblems[year]).length > 0);
     
         if (availableYears.length === 0) {
-            problemDiv.innerHTML = "<p>No problems found within the selected difficulty range.</p>";
+            problemDiv.innerHTML = "<p>No problems found within the selected difficulty range and tags.</p>";
             return;
         }
     
-        let selectedYear = yearSelector.value;
-        let selectedProblemKey;
-    
-        // if (!lockYearCheckbox.checked) {
-        //     selectedYear = availableYears[Math.floor(Math.random() * availableYears.length)];
-        // }
-        selectedYear = availableYears[Math.floor(Math.random() * availableYears.length)];
-    
+        let selectedYear = availableYears[Math.floor(Math.random() * availableYears.length)];
         const availableProblems = Object.keys(filteredProblems[selectedYear]);
-        // if (!lockProblemCheckbox.checked) {
-        //     selectedProblemKey = availableProblems[Math.floor(Math.random() * availableProblems.length)];
-        // } else {
-        //     selectedProblemKey = problemSelector.value;
-        // }
-        selectedProblemKey = availableProblems[Math.floor(Math.random() * availableProblems.length)];
+        let selectedProblemKey = availableProblems[Math.floor(Math.random() * availableProblems.length)];
     
-        // Set the dropdowns to the random year and problem (or locked ones)
+        // Set the dropdowns to the random year and problem
         yearSelector.value = selectedYear;
         populateProblemSelector(); // This will call displaySelectedProblem to update the view
     
-        // Manually set the problem selector to the locked or randomly chosen problem
+        // Manually set the problem selector to the randomly chosen problem
         problemSelector.value = selectedProblemKey;
     
         displayProblem(selectedYear, selectedProblemKey);
     }
-    
 
     function displaySelectedProblem() {
         const selectedYear = yearSelector.value;
@@ -211,8 +226,8 @@ document.addEventListener("DOMContentLoaded", () => {
         let tagsHTML = '';
         if (problemData.tags_and_strengths) {
             tagsHTML = '<div class="tags-container">';
-            for (const [tag, strength] of Object.entries(problemData.tags_and_strengths)) {
-                tagsHTML += `<span class="tag-box">#&nbsp;${tag} </span>`;
+            for (const tag of Object.keys(problemData.tags_and_strengths)) {
+                tagsHTML += `<span class="tag-box"># ${tag}</span>`;
             }
             tagsHTML += '</div>';
         }
@@ -223,7 +238,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (window.MathJax) {
             MathJax.typesetPromise([problemDiv]).catch((err) => console.log(err.message));
         }
-    }    
+    }
 
     function toggleDarkMode() {
         const themeStylesheet = document.getElementById("themeStylesheet");

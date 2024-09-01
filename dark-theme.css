@@ -7,4 +7,6 @@
     --button-text-color: white;
     --button-hover-background-color: #666;
     --content-background-color: #444;
+    --tag-selected-color: #f8ce0b; /* Example: Gold color for dark mode */
+    --tag-selected-text-color: #000; /* Black text for contrast */
 }
