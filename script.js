@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         let problemText = problemData.problem_text
             .replace(/\\\\/g, '\\') // Replace double slashes with single slash
             .replace(/\\item\[[^\]]+\]\s*\n?/, ''); // Remove initial \item[...] text
-
+    
         // Convert LaTeX enumerate/itemize to HTML
         problemText = problemText
             .replace(/\\begin{enumerate}/g, '<ol>')
@@ -186,16 +186,16 @@ document.addEventListener("DOMContentLoaded", () => {
             .replace(/\\item\[(.*?)\]/g, '<li style="list-style-type:none;"><span>$1</span> ')
             // Handle standard items
             .replace(/\\item/g, '<li>');
-
+    
         // Convert LaTeX text formatting commands to HTML
         problemText = problemText
             .replace(/\\textbf{([^}]*)}/g, '<b>$1</b>')  // \textbf{} to <b></b>
             .replace(/\\textit{([^}]*)}/g, '<i>$1</i>')  // \textit{} to <i></i>
             .replace(/\\emph{([^}]*)}/g, '<i>$1</i>');   // \emph{} to <i></i>
-
+    
         const difficultyRating = problemData.difficulty_rating;
         const heading = `${year} ${problemKey.replace("\\item[", "").replace("]", "").replace("--", "")}`;
-        
+    
         let stars = '';
         if (difficultyRating !== null) {
             stars = `
@@ -206,14 +206,24 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
             `;
         }
-
-        problemDiv.innerHTML = `<h2>${heading}</h2>${stars}<div class="math-content">${problemText}</div>`;
-
+    
+        // Create tags HTML
+        let tagsHTML = '';
+        if (problemData.tags_and_strengths) {
+            tagsHTML = '<div class="tags-container">';
+            for (const [tag, strength] of Object.entries(problemData.tags_and_strengths)) {
+                tagsHTML += `<span class="tag-box">#&nbsp;${tag} </span>`;
+            }
+            tagsHTML += '</div>';
+        }
+    
+        problemDiv.innerHTML = `<h2>${heading}</h2>${stars}<div class="math-content">${problemText}</div>${tagsHTML}`;
+    
         // Ensure MathJax re-renders the new content
         if (window.MathJax) {
             MathJax.typesetPromise([problemDiv]).catch((err) => console.log(err.message));
         }
-    }
+    }    
 
     function toggleDarkMode() {
         const themeStylesheet = document.getElementById("themeStylesheet");
