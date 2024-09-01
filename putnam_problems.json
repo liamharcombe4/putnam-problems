@@ -400,7 +400,7 @@
             }
         },
         "\\item[A--6]": {
-            "problem_text": "\\item[A--6]\nLet $\\alpha=1+a_1x+a_2x^2+\\cdots$ be a formal power series with coefficients\nin the field of two elements. Let\n\\[\na_n =\n\\begin{cases}\n1 & \\parbox{2in}{if every block of zeros in the binary expansion of $n$\nhas an even number of zeros in the block} \\\\[.3in]\n0 & \\text{otherwise.}\n\\end{cases}\n\\]\n(For example, $a_{36}=1$ because $36=100100_2$ and $a_{20}=0$ because\n$20=10100_2.$)\nProve that $\\alpha^3+x\\alpha+1=0.$",
+            "problem_text": "\\item[A--6]\nLet $\\alpha=1+a_1x+a_2x^2+\\cdots$ be a formal power series with coefficients\nin the field of two elements. Let $a_n = 1$ if every block of zeroes in the binary expansion of $n$ has an even number of zeros in the block, and $a_n=0$ otherwise. (For example, $a_{36}=1$ because $36=100100_2$ and $a_{20}=0$ because\n$20=10100_2.$)\nProve that $\\alpha^3+x\\alpha+1=0.$",
             "difficulty_rating": 5.0,
             "tags_and_strengths": {
                 "Number Theory": 7,
@@ -556,7 +556,7 @@
             }
         },
         "\\item[A--2]": {
-            "problem_text": "\\item[A--2]\nLet $\\bA$ and $\\bB$ be different $n \\times n$ matrices with real entries.\nIf $\\bA^3 = \\bB^3$ and $\\bA^2 \\bB = \\bB^2 \\bA$, can $\\bA^2 + \\bB^2$ be\ninvertible?",
+            "problem_text": "\\item[A--2]\nLet $A$ and $B$ be different $n \\times n$ matrices with real entries.\nIf $A^3 = B^3$ and $A^2 B = B^2 A$, can $A^2 + B^2$ be\ninvertible?",
             "difficulty_rating": 1.5,
             "tags_and_strengths": {
                 "Linear Algebra": 9
@@ -620,7 +620,7 @@
             }
         },
         "\\item[B--5]": {
-            "problem_text": "\\item[B--5]\nLet $p$ be an odd prime and let $\\Z_p$ denote (the field of) integers\nmodulo $p$. How many elements are in the set\n\\[\n\\{x^2: x \\in \\Z_p\\} \\cap \\{y^2 + 1 : y \\in \\Z_p\\}?\n\\]",
+            "problem_text": "\\item[B--5]\nLet $p$ be an odd prime and let $\\mathbb{Z}_p$ denote (the field of) integers\nmodulo $p$. How many elements are in the set\n\\[\n\\{x^2: x \\in \\mathbb{Z}_p\\} \\cap \\{y^2 + 1 : y \\in \\mathbb{Z}_p\\}?\n\\]",
             "difficulty_rating": 4.5,
             "tags_and_strengths": {
                 "Number Theory": 9
@@ -1616,7 +1616,7 @@
             }
         },
         "\\item[B--2]": {
-            "problem_text": "\\item[B--2]\nConsider a polyhedron with at least five faces such that exactly three\nedges emerge from each of its vertices. Two players play the following\ngame:\n\\begin{verse}\n\\noindent\nEach player, in turn, signs his or her name on a previously\nunsigned face. The winner is the player who first succeeds in\nsigning three faces that share a common vertex.\n\\end{verse}\nShow that the player who signs first will always win by playing\nas well as possible.",
+            "problem_text": "\\item[B--2]\nConsider a polyhedron with at least five faces such that exactly three\nedges emerge from each of its vertices. Two players play the following\ngame: Each player, in turn, signs his or her name on a previously\nunsigned face. The winner is the player who first succeeds in\nsigning three faces that share a common vertex. Show that the player who signs first will always win by playing\nas well as possible.",
             "difficulty_rating": 1.5,
             "tags_and_strengths": {
                 "Combinatorics": 10
@@ -2528,7 +2528,7 @@
             }
         },
         "\\item[A--5]": {
-            "problem_text": "\\item[A--5]\nLet $\\FF_p$ denote the field of integers modulo a prime $p$, and let $n$ be a positive integer.\nLet $v$ be a fixed vector in $\\FF_p^n$, let $M$ be an $n \\times n$ matrix with entries of $\\FF_p$,\nand define $G: \\FF_p^n \\to \\FF_p^n$ by $G(x) = v + Mx$. Let $G^{(k)}$ denote the $k$-fold\ncomposition of $G$ with itself, that is, $G^{(1)}(x) = G(x)$ and $G^{(k+1)}(x) = G(G^{(k)}(x))$.\nDetermine all pairs $p, n$ for which there exist $v$ and $M$ such that the $p^n$ vectors\n$G^{(k)}(0)$, $k=1,2,\\dots,p^n$ are distinct.",
+            "problem_text": "\\item[A--5]\nLet $\\mathbb{F}_p$ denote the field of integers modulo a prime $p$, and let $n$ be a positive integer.\nLet $v$ be a fixed vector in $\\mathbb{F}_p^n$, let $M$ be an $n \\times n$ matrix with entries of $\\mathbb{F}_p$,\nand define $G: \\mathbb{F}_p^n \\to \\mathbb{F}_p^n$ by $G(x) = v + Mx$. Let $G^{(k)}$ denote the $k$-fold\ncomposition of $G$ with itself, that is, $G^{(1)}(x) = G(x)$ and $G^{(k+1)}(x) = G(G^{(k)}(x))$.\nDetermine all pairs $p, n$ for which there exist $v$ and $M$ such that the $p^n$ vectors\n$G^{(k)}(0)$, $k=1,2,\\dots,p^n$ are distinct.",
             "difficulty_rating": 5.0,
             "tags_and_strengths": {
                 "Number Theory": 6,
